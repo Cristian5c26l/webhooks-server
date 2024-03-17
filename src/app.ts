@@ -1,6 +1,7 @@
 import express from 'express';
 import { envs } from './config';// Aqui, implicitamente, se importa envs que está exportado desde ./config/index.ts
 import { GithubController } from './presentation/github/controller';
+import { GithubSha256Middleware } from './presentation/middlewares/github-sha256.middleware';
 
 
 (()=>{
@@ -15,6 +16,8 @@ function main() {
   
   // Middleware
   app.use(express.json());
+
+  app.use(GithubSha256Middleware.verifySignature);
   
   app.post('/api/github', controller.webhookHandler);
 
